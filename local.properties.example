@@ -1,0 +1,11 @@
+## Copy this file to local.properties and fill values locally.
+## Never commit local.properties or real credentials.
+
+sdk.dir=D\:\\Android\\AndroidSDK
+
+# Volcengine/Doubao API key. Either include "Bearer " or only paste the raw key.
+VOLC_API_KEY=
+
+# Optional TTS configuration.
+TTS_APP_ID=
+TTS_ACCESS_TOKEN=
