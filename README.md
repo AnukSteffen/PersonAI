@@ -107,27 +107,6 @@ app/src/main/java/com/example/personai/
 └── utils/              # 工具类
 ```
 
-## 🚀 快速开始
-
-### 环境要求
-- Android Studio Hedgehog (2023.1.1) 或更高
-- JDK 17+
-- Android SDK 34+
-
-### 构建运行
-
-
-
-### 配置说明
-
-1. **API 密钥配置**（可选）
-   - 复制 `local.properties.example` 为 `local.properties`
-   - 添加火山引擎 API 密钥
-
-2. **本地模型配置**
-   - 将 Gemma 模型文件放置到 `app/src/main/assets/`
-   - 或在首次运行时自动下载
-
 ## 📸 截图展示
 
 ### 🤖 AI 聊天功能
@@ -148,30 +127,6 @@ app/src/main/java/com/example/personai/
 |---------|
 | ![Post Detail](docs/screenshots/post_detail.png) |
 
-
-## 📝 License
-
-```
-Copyright 2026 PersonAI Team
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-```
-
-
-### 开发规范
-- 使用 Kotlin 官方编码规范
-- 遵循 MVVM 架构模式
-- 提交信息使用 Conventional Commits 格式
 
 ---
 
