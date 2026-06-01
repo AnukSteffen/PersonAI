@@ -1,4 +1,183 @@
 # PersonAI
+
+> 🌟 **一款基于端云混合 AI 的角色社交应用**，支持离线可用的 AI 聊天、角色创建与演化、多模态消息交互。
+
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+[![Platform](https://img.shields.io/badge/Platform-Android-green.svg)](https://developer.android.com/)
+[![Kotlin](https://img.shields.io/badge/Language-Kotlin-orange.svg)](https://kotlinlang.org/)
+
+## 🚀 功能特性
+
+### 🤖 AI 聊天
+- **端云混合推理**：支持本地 Gemma 模型和云端大模型智能切换
+- **流式响应**：打字机效果的实时消息生成
+- **多模态支持**：文本、图片、视频、语音消息
+- **角色记忆**：基于对话历史的角色状态演化
+
+### 👤 角色系统
+- **角色创建**：5 步向导创建专属 AI 角色
+- **人设定制**：支持性格、背景、对话风格等详细设定
+- **共生进化**：角色随对话逐步成长
+- **角色广场**：浏览和关注其他用户创建的角色
+
+### 💬 社交功能
+- **动态广场**：浏览角色发布的动态
+- **评论互动**：支持评论、点赞、分享
+- **关注关系**：关注喜欢的角色
+- **消息通知**：实时接收互动消息
+
+### 📱 用户体验
+- **离线可用**：本地模型支持完全离线聊天
+- **流畅动画**：基于 Jetpack Compose 的精美 UI
+- **主题切换**：支持多种主题模式
+- **数据安全**：本地优先的存储策略
+
+## 🛠 技术栈
+
+| 分类 | 技术 | 版本 |
+|------|------|------|
+| 语言 | Kotlin | 1.9.x |
+| 框架 | Jetpack Compose | 1.6.x |
+| 架构 | MVVM + UDF | - |
+| 协程 | Coroutines / Flow | 1.7.x |
+| 依赖注入 | Hilt | 2.48 |
+| 数据库 | Room | 2.6.x |
+| 状态存储 | DataStore | 1.0.x |
+| 网络 | Retrofit | 2.9.x |
+| 本地 LLM | MediaPipe GenAI | 0.10.x |
+| 图片加载 | Coil | 2.5.x |
+| 视频播放 | Media3 | 1.3.x |
+
+## 🏗 架构设计
+
+### 整体架构
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                          UI Layer                              │
+│   Compose Screens (Chat, Feed, Profile, Create, etc.)          │
+└────────────────────────────┬────────────────────────────────────┘
+                             │
+                             ▼
+┌─────────────────────────────────────────────────────────────────┐
+│                        ViewModel Layer                         │
+│   ChatViewModel, FeedViewModel, ProfileViewModel...            │
+└────────────────────────────┬────────────────────────────────────┘
+                             │
+                             ▼
+┌─────────────────────────────────────────────────────────────────┐
+│                       Repository Layer                         │
+│   RoomPersonaRepository (Local + Remote)                       │
+└────────────────────────────┬────────────────────────────────────┘
+                             │
+        ┌────────────────────┼────────────────────┐
+        ▼                    ▼                    ▼
+┌───────────────┐    ┌───────────────┐    ┌───────────────┐
+│   Local LLM   │    │    Room DB    │    │   Remote API  │
+│  (Gemma 2B)  │    │               │    │ (DouBao/Volc) │
+└───────────────┘    └───────────────┘    └───────────────┘
+```
+
+### 核心数据流
+
+```
+UI Event → ViewModel → Repository → Local/Remote → Repository → ViewModel → UI State
+```
+
+## 📁 项目结构
+
+```
+app/src/main/java/com/example/personai/
+├── data/
+│   ├── local/          # 本地数据层（Room、LocalLLM、DataStore）
+│   ├── remote/         # 远程数据层（API、Retrofit）
+│   ├── repository/     # 数据仓库（业务逻辑）
+│   └── manager/        # 管理器（网络、同步、存储）
+├── domain/
+│   ├── model/          # 领域模型
+│   └── repository/     # 仓库接口
+├── ui/
+│   ├── chat/           # 聊天模块
+│   ├── create/         # 角色创建模块
+│   ├── feed/           # 动态广场模块
+│   ├── profile/        # 个人主页模块
+│   ├── auth/           # 认证模块
+│   └── component/      # 通用组件
+├── di/                 # 依赖注入
+└── utils/              # 工具类
+```
+
+## 🚀 快速开始
+
+### 环境要求
+- Android Studio Hedgehog (2023.1.1) 或更高
+- JDK 17+
+- Android SDK 34+
+
+### 构建运行
+
+
+
+### 配置说明
+
+1. **API 密钥配置**（可选）
+   - 复制 `local.properties.example` 为 `local.properties`
+   - 添加火山引擎 API 密钥
+
+2. **本地模型配置**
+   - 将 Gemma 模型文件放置到 `app/src/main/assets/`
+   - 或在首次运行时自动下载
+
+## 📸 截图展示
+
+### 🤖 AI 聊天功能
+
+| 多模态聊天 | 图片理解 |
+|-----------|---------|
+| ![Chat Screen](docs/screenshots/chat.png) | ![Vision Chat](docs/screenshots/chat_vision.png) |
+
+### 👤 角色创建
+
+| 基本信息 | 确认发布 |
+|---------|---------|
+| ![Create Step 1](docs/screenshots/create_step1.png) | ![Create Step 5](docs/screenshots/create_step5.png) |
+
+### 💬 社交互动
+
+| 帖子详情 |
+|---------|
+| ![Post Detail](docs/screenshots/post_detail.png) |
+
+
+## 📝 License
+
+```
+Copyright 2026 PersonAI Team
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+```
+
+
+### 开发规范
+- 使用 Kotlin 官方编码规范
+- 遵循 MVVM 架构模式
+- 提交信息使用 Conventional Commits 格式
+
+---
+
+**Made with ❤️ for AI Character Social**
+
+# PersonAI的重点内容
 技术栈：Kotlin、Jetpack Compose、Coroutines/Flow、Room、DataStore、Hilt、Retrofit、MediaPipe GenAI、Coil、Media3
 
 项目描述：

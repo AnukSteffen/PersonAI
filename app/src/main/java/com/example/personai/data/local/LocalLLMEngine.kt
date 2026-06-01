@@ -7,6 +7,7 @@ import android.os.Handler
 import android.os.Looper
 import android.util.Log
 import android.widget.Toast
+import com.example.personai.data.manager.MemoryManager
 import com.google.mediapipe.framework.image.BitmapImageBuilder
 import com.google.mediapipe.framework.image.MPImage
 import com.google.mediapipe.tasks.genai.llminference.GraphOptions
@@ -22,7 +23,8 @@ import javax.inject.Singleton
 
 @Singleton
 class LocalLLMEngine @Inject constructor(
-    @ApplicationContext private val context: Context
+    @ApplicationContext private val context: Context,
+    private val memoryManager: MemoryManager
 ) {
     private var llmInference: LlmInference? = null
 
@@ -31,11 +33,26 @@ class LocalLLMEngine @Inject constructor(
     fun initialize(): Boolean {
         if (llmInference != null) return true
 
+        // 1. 检查内存是否足够
+        if (!memoryManager.hasEnoughMemoryForModel()) {
+            val available = memoryManager.getAvailableRamReadable()
+            val required = memoryManager.getRequiredModelMemoryReadable()
+            Log.e("LocalLLM", "内存不足！可用: $available, 需要: $required")
+            Handler(Looper.getMainLooper()).post {
+                Toast.makeText(context, "内存不足！可用: $available, 需要: $required", Toast.LENGTH_LONG).show()
+            }
+            return false
+        }
+
+        // 2. 检查模型文件是否存在
         val modelFile = File(MODEL_PATH)
         if (!modelFile.exists()) {
             Log.e("LocalLLM", "模型文件未找到: $MODEL_PATH")
             return false
         }
+
+        // 3. 记录内存状态
+        Log.e("LocalLLM", "内存检测通过: ${memoryManager.getAvailableRamReadable()} 可用")
 
         try {
             Log.e("LocalLLM", "开始初始化...")
